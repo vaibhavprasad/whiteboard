@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+.tool-bar {
+    background-color: aqua;
+    width: 99vw;
+    height: 3vh;
+}
+
+.white-board {
+    background-color: #e1e1e1;
+    width: 100%;
+    width: 99vw;
+    height: 96vh;
+    
+}
+#canvas {
+    background-color: white;
+    cursor: crosshair;
+}
