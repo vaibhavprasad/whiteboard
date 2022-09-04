@@ -8,6 +8,7 @@ let isMouseDown = false;
 
 const boardColor = '#ffffff';
 const currentColor = '#000000';
+let strokeArr = [];
 
 // create the canvas
 function createCanvas() {
@@ -47,7 +48,44 @@ canvas.addEventListener('mousemove', event => {
         const currentMousePosition = getMousePosition(event);
         context.lineTo(currentMousePosition.x, currentMousePosition.y);
         context.stroke();
-        // console.log('mouse move called', currentMousePosition);
+        strokeArr.push(currentMousePosition);
+    } else {
+        strokeArr.push({});
     }
 });
+function clearCanvas () {
+    console.log('clearCanvas');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    strokeArr = [];
+}
+
+function undo () {
+    console.log('undo');
+    strokeArr.pop();
+    saveToLocalStorage();
+    loadFromStorage();
+}
+
+function redo () {
+    console.log('redo');
+}
+
+function saveToLocalStorage () {
+    console.log('SaveToLocalStorage');
+    localStorage.setItem('canvas_content', JSON.stringify(strokeArr));
+}
+
+function loadFromStorage () {
+    console.log('load from storage');
+    const storedCanvas = JSON.parse(localStorage.getItem('canvas_content'));
+    for(let i = 0; i < storedCanvas.length - 1; i++) {
+        context.beginPath();
+        context.moveTo(storedCanvas[i].x, storedCanvas[i].y);
+        context.lineCap = 'round';
+        context.strokeStyle = currentColor;
+        context.lineTo(storedCanvas[i+1].x, storedCanvas[i+1].y);
+        context.stroke();
+    }
+}
+
 createCanvas();
